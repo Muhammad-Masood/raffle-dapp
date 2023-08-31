@@ -1,11 +1,13 @@
+import { DetailCard } from "@/components/DetailCard";
 import { Hero } from "@/components/Hero";
-import { Button } from "@/components/ui/button";
-
+import { WinnersData } from "@/components/WinnersData";
 
 export default function Home() {
   return (
-    <div className="">
+    <div className="space-y-10">
       <Hero/>
+      <WinnersData/>
+      <DetailCard/>
     </div>
   )
 }

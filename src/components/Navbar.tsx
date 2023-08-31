@@ -9,27 +9,29 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ConnectWallet } from "./ConnectWallet";
 
 export const Navbar = () => {
   return (
     <div className="flex items-center justify-between">
       <Link href="/">
-        <p className="text-xl lg:text-2xl font-semibold pr-2">Raffl3</p>
+        <p className="text-xl lg:text-2xl font-semibold pr-3">Raffl3</p>
       </Link>
 
       <div>
-        <div className="items-center space-x-10 hidden md:block ">
+
+        <div className="lg:flex items-center space-x-10 hidden md:flex ">
           {routes.map((route) => (
-            <Link href={route.path}>{route.name}</Link>
+            <Link href={route.path} key={route.path}>{route.name}</Link>
           ))}
-          <Button>Connect Wallet</Button>
+          <ConnectWallet/>
         </div>
 
         <div className="flex items-center lg:hidden md:hidden space-x-5">
-          <Link href={routes[1].path}>{routes[1].name}</Link>
-          <Button>Connect Wallet</Button>
+          <Link href={routes[1].path} key={routes[1].path}>{routes[1].name}</Link>
+          <ConnectWallet/>
         </div>
-        <div></div>
+    
       </div>
     </div>
   );
