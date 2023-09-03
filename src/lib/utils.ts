@@ -16,11 +16,10 @@ export const routes = [
   },
   {
     name:"About Us",
-    path:"/about",
+    path:"#about",
   },
   {
     name:"FAQ",
-    path:"/faq",
+    path:"#about",
   }
-
 ]

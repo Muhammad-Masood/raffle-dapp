@@ -1,43 +1,28 @@
-import Link from "next/link"
+import Link from "next/link";
+import { EventLog, Log, ethers } from "ethers";
 
 
-const winners = [
-    {
-        address:"0x6a07bB46D93c4BF298E1aCf67bDBd163e7B793c6",
-        prize:1233345.565
-    },
-    {
-        address:"0x6a07bB46D93c4BF298E1aCf67bDBd163e7B793c6",
-        prize:1233345.565
-    },
-    {
-        address:"0x6a07bB46D93c4BF298E1aCf67bDBd163e7B793c6",
-        prize:1233345.565
-    },
-    {
-        address:"0x6a07bB46D93c4BF298E1aCf67bDBd163e7B793c6",
-        prize:1233345.565
-    },
-    {
-        address:"0x6a07bB46D93c4BF298E1aCf67bDBd163e7B793c6",
-        prize:1233345.565
-    },
-]
-
-export const WinnersData = () => {
-    return(
-        <div>
-            <p className="text-3xl lg:text-4xl md:text-4xl font-semibold text-center">RECENT WINNERS</p>
-            <div className="pt-8 space-y-4">
-                {
-                    winners.map((winner)=>(
-                        <div key={winner.address} className="flex gap-x-4 flex-col lg:flex-row md:flex-row lg:justify-center">
-                        <Link href="/" className="break-words text-lg">{winner.address}</Link>
-                        <p>{winner.prize}</p>
-                        </div>
-                    ))
-                }
-            </div>
-        </div>
-    )
+interface WinnerEventProps {
+    topEvents:(Log|EventLog)[];
 }
+
+export const WinnersData:React.FC<WinnerEventProps> = ({topEvents}) => {
+    return (
+    <div>
+      <p className="text-3xl lg:text-4xl md:text-4xl font-semibold text-center">
+        RECENT WINNERS
+      </p>
+      <div className="pt-8 space-y-4">
+        {topEvents.length===0?<p className="font-semibold text-xl text-center">No Draw Yet</p> :
+        topEvents.map((event:any,index)=>(
+            <div key={index} className="flex gap-x-4 flex-col lg:flex-row md:flex-row lg:justify-center">
+             <Link href="/" className="break-words text-lg font-mono">
+               {event.args[0]}
+             </Link>
+             <p>{event.args[1]}</p>
+             </div>  
+         ))}
+      </div>
+    </div>
+  );
+};

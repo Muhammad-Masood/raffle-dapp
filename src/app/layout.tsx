@@ -1,3 +1,5 @@
+"use client"
+
 import { Navbar } from "@/components/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
@@ -15,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="p-20">
+    <html lang="en" className="dark">
+      <body className="p-8 lg:p-20">
         <WalletContextProvider>
           <Navbar />
           {children}
