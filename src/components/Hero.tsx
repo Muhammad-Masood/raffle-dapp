@@ -1,5 +1,4 @@
 import Image from "next/image";
-import box from "../../public/box.png";
 import heroImage from "../../public/heroImage.png";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -16,7 +15,7 @@ export const Hero = () => {
             BIG <span className="text-green-500">WIN</span>
           </p>
           <p className="max-w-md">
-            A completely decentralized lottery that securely keeps users'funds.
+            A completely decentralized lottery that securely keeps users&apos;funds.
             Picks up a truly random winner from the participants and transfer
             funds to it. Perform all these tasks automatically and puctually.
           </p>
@@ -26,10 +25,7 @@ export const Hero = () => {
           <Button className="rounded-full">Participate Now</Button>
         </Link>
       </div>
-
-      {/* <div className=""> */}
-        <Image src={heroImage} alt="hero_image" ></Image>
-      {/* </div> */}
+      <Image src={heroImage} alt="hero_image"></Image>
     </div>
   );
 };

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { abi, contractAddress } from "@/contractData/context";
 import { WalletContext } from "@/providers/context";
-import { ethers, Contract, parseEther } from "ethers";
+import { ethers, Contract, parseEther, formatEther } from "ethers";
 import { useContext, useEffect, useState } from "react";
 import {
   Days,
@@ -23,9 +23,10 @@ type Time = {
   days: number;
 };
 
-export default function page() {
+export default function Page() {
   const [totalPlayers, setTotalPlayers] = useState<number>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isPurchasePending,setIsPurchasePending] = useState(false);
 
   const { wallet } = useContext(WalletContext);
   const { provider, signer, isConnected } = wallet;
@@ -46,11 +47,15 @@ export default function page() {
       alert("Connect Wallet!");
     } else {
       try {
+        setIsPurchasePending(true);
         const price: number = await contract.getLotteryPrice();
         const tx = await contractTx.enterRaffle({ value: price });
         await tx.wait();
-      } catch (error) {
-        console.log(error);
+        setIsPurchasePending(false);
+      } catch (error:any) {
+        setIsPurchasePending(false);
+        const alertError = (error.toString()).split(",")[0];
+        alert(alertError+"...");
       }
     }
   };
@@ -62,11 +67,13 @@ export default function page() {
           process.env.NEXT_PUBLIC_DEFAULT_RPC_URL
         );
         const myContract = new Contract(contractAddress, abi, myProvider);
-        const lastTimestamp:number = parseInt(await myContract.getLastTimeStamp());
-        const duration:number = parseInt(await myContract.getRaffleDuration());
+        const lastTimestamp: number = parseInt(
+          await myContract.getLastTimeStamp()
+        );
+        const duration: number = parseInt(await myContract.getRaffleDuration());
         const participants = await myContract.getParticipants();
         setIsLoading(false);
-        const timeLeft = ((duration + lastTimestamp) - (Date.now() / 1000)); // draw time - current time
+        const timeLeft = duration + lastTimestamp - Date.now() / 1000; // draw time - current time
         const { secs, mins, hours, days } = timeConversion(timeLeft);
         setCountdown({
           seconds: secs,
@@ -148,16 +155,18 @@ export default function page() {
               <Skeleton className="w-[64px] h-[20px] rounded-full bg-gray-400" />
             ) : (
               <p className="flex items-center">
-                Players {!totalPlayers?0:totalPlayers} <PersonStanding />
+                Players {!totalPlayers ? 0 : totalPlayers} <PersonStanding />
               </p>
             )}
           </Badge>
         </div>
 
-        <Button onClick={handleEnterRaffle} className="">
-          Purchase Lottery <Coins className="pl-1" />
+        <Button onClick={handleEnterRaffle} className={`${isPurchasePending?"opacity-50 cursor-not-allowed":''}`} disabled={isPurchasePending}>
+          {!isPurchasePending?"Purchase Lottery":"Please wait..."} <Coins className="pl-1" />
         </Button>
-        <p className="w-36 font-mono tracking-tight">Note: Make sure you're connected to Sepolia TestNetwork</p>
+        <p className="w-36 font-mono tracking-tight">
+          Note: Make sure you&apos;re connected to Sepolia TestNetwork
+        </p>
       </div>
     </div>
   );

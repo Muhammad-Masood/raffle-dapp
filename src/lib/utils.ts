@@ -20,6 +20,6 @@ export const routes = [
   },
   {
     name:"FAQ",
-    path:"#about",
+    path:"#footer",
   }
 ]

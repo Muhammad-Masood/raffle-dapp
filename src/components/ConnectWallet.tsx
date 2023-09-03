@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { Button } from "./ui/button";
 import { ethers, toNumber } from "ethers";
 import { WalletContext } from "@/providers/context";
-import { useEffect } from "react";
 
 export function ConnectWallet() {
   const { wallet, setWallet } = useContext(WalletContext);
