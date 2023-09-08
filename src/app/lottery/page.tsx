@@ -134,13 +134,14 @@ export default function Page() {
         {isLoading ? (
           <Skeleton className="text-center w-[160px] h-[30px]" />
         ) : (
+          totalPlayers && totalPlayers>0 || days>0 ?(
           <p className="text-2xl font-semibold text-center">
             {`${days < 10 ? "0" + days : days}:${
               hours < 10 ? "0" + hours : hours
             }:${minutes < 10 ? "0" + minutes : minutes}:${
               seconds < 10 ? "0" + seconds : seconds
             }`}
-          </p>
+          </p>):<p className="text-2xl font-semibold text-center">No Participants</p>
         )}
       </div>
 
